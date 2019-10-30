@@ -15,7 +15,7 @@ commands:
     description: "Persists Google credentials as a file"
     steps:
       - run: |
-        echo "$<<parameters.var>>" > <<parameters.file>>
+          echo "$<<parameters.var>>" > <<parameters.file>>
     parameters:
       file:
         description: "File full path to persist the credentials"
@@ -28,19 +28,21 @@ commands:
   multi-project-terraform:
     description: "Applies terraform command to multiple projects"
     steps:
-      - run: |
-        _pwd=$(pwd)
-        (
-          for project_path in <<parameters.path>>/*
-          do
-            echo "project: $project_path"
-            cd "${_pwd}/${project_path}" || exit
-            terraform <<parameters.command>> || exit
-          done
-        )
+      - run:
+          name: "multi project terraform <<parameters.command>>"
+          command: |
+            _pwd=$(pwd)
+            (
+              for project_path in <<parameters.path>>/*
+              do
+                echo "project: $project_path"
+                cd "${_pwd}/${project_path}" || exit
+                terraform <<parameters.command>> || exit
+              done
+            )
     parameters:
       command:
-        description:
+        description: "Terraform command to be executed on all projects"
         type: string
       path:
         description: "path to the projects folder"
@@ -51,10 +53,6 @@ jobs:
   validate:
     description: "Execute terraform validate"
     executor: default
-    parameters:
-      cluster:
-        description: "The Kubernetes cluster name."
-        type: string
     steps:
       - checkout
       - create-keyfile
