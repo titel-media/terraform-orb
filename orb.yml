@@ -31,7 +31,7 @@ commands:
       - run: |
           wget "https://releases.hashicorp.com/terraform/<<parameters.version>>/terraform_<<parameters.version>>_linux_amd64.zip" && \
           unzip terraform_*_linux_amd64.zip && \
-          mv terraform /usr/local/bin/
+          sudo mv terraform /usr/local/bin/
           rm terraform_*_linux_amd64.zip
     parameters:
       version:
