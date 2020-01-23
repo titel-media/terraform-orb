@@ -25,6 +25,19 @@ commands:
         description: "Environment variable to retrieve the credentials from"
         type: env_var_name
         default: GOOGLE_CREDENTIALS
+  install:
+    description: "Installs terraform cli"
+    steps:
+      - run: |
+          wget "https://releases.hashicorp.com/terraform/<<parameters.version>>/terraform_<<parameters.version>>_linux_amd64.zip" && \
+          unzip terraform_*_linux_amd64.zip && \
+          mv terraform /usr/local/bin/
+          rm terraform_*_linux_amd64.zip
+    parameters:
+      version:
+        description: "Version of terraform cli to be installed"
+        type: string
+        default: "0.12.19"
   multi-project-terraform:
     description: "Applies terraform command to multiple projects"
     steps:
