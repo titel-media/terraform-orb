@@ -48,7 +48,10 @@ commands:
             (
               for project_path in <<parameters.path>>/*
               do
-                echo "project: $project_path"
+                echo "###############################################"
+                echo "###### project: $project_path"
+                echo "###############################################"
+                echo ""
                 cd "${_pwd}/${project_path}" || exit
                 terraform <<parameters.command>> || exit
               done
